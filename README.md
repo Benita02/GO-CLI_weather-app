@@ -1,5 +1,4 @@
-#GO CLI WEATHER APP
-A brief description of what this project does and who it's for
+# GO CLI WEATHER APP
 
 A CLI weather application written in Go that allows users to retrieve weather information by making web requests to APIs, parsing JSON responses, and utilizing command-line flags. This project explores concepts such as working with APIs, JSON parsing, handling command-line inputs, and asynchronous programming using channels.
 
