@@ -12,7 +12,7 @@ var Client http.Client
 
 func main(){ 
 	Client = http.Client{
-		//handy shortcuts for calculationg time in the time package
+		//handy shortcuts for calculating time in the time package
 		Timeout := time.Second * 10
 	}
 	getLatLng := getLatLngForPlace()

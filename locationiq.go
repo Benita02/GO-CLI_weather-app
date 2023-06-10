@@ -11,9 +11,9 @@ type LatLng struct {
 	Lng float64
 }
 
-type LocationiqGeocode struct {
+type LocationiqGeocodeRes struct {
 	Lat float64 `json: "lat"`
-	Lon float64 `json: "lon"`
+	Lon float64 `json: "lon"`  
 }
 
 func getLatLngForPlace(place string) (lat_lng LatLng, err error){
@@ -25,7 +25,9 @@ func getLatLngForPlace(place string) (lat_lng LatLng, err error){
 //since go does not have it's default http clients does not have a time-out for request,
 // we're going to define out own custom http client with a time-out
 //this customized timer is done in main.go
-	res, err := Client.Get(url)
+
+	res, err := Client.Get(url) //making request to API
+
 //when you make a http request using http.Client as done above, it returns an http.Response object
 //hence we can use the various fields and methods under the http.Response struct e.g resp.StatusCode -
 // .StatusCode is field under the http.Response struct
@@ -41,7 +43,7 @@ func getLatLngForPlace(place string) (lat_lng LatLng, err error){
 		
 	}
 	 
-	var geocode LocationiqGeocode
+	var geocode LocationiqGeocodeRes
 
 	err = json.NewDecoder(res.Body).Decode(&geocode)
 
