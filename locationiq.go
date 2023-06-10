@@ -11,9 +11,13 @@ type LatLng struct {
 	Lng float64
 }
 
-type LocationiqGeocodeRes struct {
+type GeocodeResult struct {
 	Lat float64 `json: "lat"`
 	Lon float64 `json: "lon"`  
+}
+
+type LocationiqGeocodeRes struct {
+	Result []GeocodeResult  
 }
 
 func getLatLngForPlace(place string) (lat_lng LatLng, err error){
@@ -47,17 +51,24 @@ func getLatLngForPlace(place string) (lat_lng LatLng, err error){
 
 	err = json.NewDecoder(res.Body).Decode(&geocode)
 
+	//The json.NewDecoder function takes an input source, 
+	//which implements the io.Reader interface, as its parameter. 
+	//check the documentation for all these functions
+
 	if err != nil {
-		fmt.Println("Error: ", err)
-		return
+		return lat_lng, err
 	}
+
+//Checking response status
+	if resp.StatusCode != http.StatusOK || len(geocode.Result) < 1 {
+		return lat_lng, resp.StatusCode, err
+	}
+
+	return 
 
 	lat_lng.Lat = geocode.Lat
 	lat_lng.Lng = geocode.Lon
 
-	return lat_lng, nil
-
-	fmt.Println("latitude: ", geocode.Lat)
-	fmt.Println("longitude: ", geocode.Lon)
-
+	return lat_lng, err
+//There's no error but our function returns two values
 }
