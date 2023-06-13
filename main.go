@@ -13,9 +13,9 @@ var Client http.Client
 func main() {
 	Client = http.Client{
 		//handy shortcuts for calculating time in the time package
-		Timeout: time.Second * 10,
+		Timeout: time.Second * 20,
 	}
-	getLatLng, err := getLatLngForPlace("330102") //zip code for warri
+	getLatLng, err := getLatLngForPlace("denver, co") //zip code for warri
 	if err != nil {
 		panic(err)
 	}
