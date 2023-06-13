@@ -39,7 +39,7 @@ func getLatLngForPlace(place string) (lat_lng LatLng, err error) {
 	//hence we can use the various fields and methods under the http.Response struct e.g resp.StatusCode -
 	// .StatusCode is field under the http.Response struct
 	if err != nil {
-		return lat_lng, err
+		return lat_lng, errd
 	}
 
 	defer res.Body.Close()
@@ -62,7 +62,7 @@ func getLatLngForPlace(place string) (lat_lng LatLng, err error) {
 		return lat_lng, err
 	}
 
-	lat_lng = LatLng {
+	lat_lng = LatLng{
 		Lat: geocode.Lat,
 		Lng: geocode.Lng,
 	}
