@@ -18,25 +18,12 @@ type LatLng struct {
 type GeocodeResult struct {
 	Latitude float64 `json:"latitude"`
 	Longitude float64 `json:"longitude"`
-	label string
-	name string
-	Type string
-	number int
-	street string
-	postal_code int
-	confidence int
-	region string
-	region_code string
-	administrative_area string
-	neighbourhood string
-	country string
-	country_code string
-	map_url string
+	
 }
 
 type GeocodeResponse struct {
 	Data struct {
-	   Results []GeocodeResult  `json:"results"`
+	   Results []GeocodeResult `json:"results"`
 	} `json:"data"`
  }
 
@@ -62,6 +49,8 @@ func getLatLngForPlace(place string) (lat_lng LatLng, err error) {
 	defer res.Body.Close()
 
 	var geocode GeocodeResponse
+	// RawJson := Json.RawMessage(DIRECT JSON FORMAT HERE)
+	// err := json.Unmarshal(RawJson, &geocode)
 
 	err = json.NewDecoder(res.Body).Decode(&geocode)
 
