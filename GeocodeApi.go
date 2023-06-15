@@ -22,12 +22,10 @@ type GeocodeResult struct {
 }
 
 type GeocodeResponse struct {
-	Data struct {
-	   Results []GeocodeResult `json:"results"`
-	} `json:"data"`
- }
+	Results []GeocodeResult `json:"results"`
+ } //`json:"data"`
 
-func 	(place string) (lat_lng LatLng, err error) {
+func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
 	url := fmt.Sprintf("http://api.positionstack.com/v1/forward?access_key=%s&query=%s",
 		PositionStackApiKey,
 		place,
@@ -62,14 +60,14 @@ func 	(place string) (lat_lng LatLng, err error) {
 		return lat_lng, err
 	}
 
-	if res.StatusCode != http.StatusOK {
+	if res.StatusCode != http.StatusOK || len(geocode.Results) < 1{
 		return lat_lng,
 		fmt.Errorf("API request failed, error: %d", res.StatusCode)
 
 	}
 	latLng := LatLng {
-		Lat: geocode.Data.Results[0].Latitude,
-		Lng: geocode.Data.Results[0].Longitude,
+		Lat: geocode.Results[0].Latitude,
+		Lng: geocode.Results[0].Longitude,
 	}
 
 	return latLng, nil		
