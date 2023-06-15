@@ -27,7 +27,7 @@ type GeocodeResponse struct {
 	} `json:"data"`
  }
 
-func getLatLngForPlace(place string) (lat_lng LatLng, err error) {
+func 	(place string) (lat_lng LatLng, err error) {
 	url := fmt.Sprintf("http://api.positionstack.com/v1/forward?access_key=%s&query=%s",
 		PositionStackApiKey,
 		place,

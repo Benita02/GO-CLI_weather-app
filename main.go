@@ -15,7 +15,7 @@ func main() {
 		//handy shortcuts for calculating time in the time package
 		Timeout: time.Second * 20,
 	}
-	getLatLng, err := getLatLngForPlace("denver, co") //zip code for warri
+	getLatLng, err := GetLatLngForPlace("denver, co") //zip code for warri
 	if err != nil {
 		panic(err)
 	}
