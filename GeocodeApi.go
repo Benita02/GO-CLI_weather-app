@@ -60,7 +60,7 @@ func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
 		return lat_lng, err
 	}
 
-	if res.StatusCode != http.StatusOK || len(geocode.Results) < 1{
+	if res.StatusCode != http.StatusOK || cd sr{
 		return lat_lng,
 		fmt.Errorf("API request failed, error: %d", res.StatusCode)
 
