@@ -16,19 +16,15 @@ type LatLng struct {
 //	}
 
 type GeocodeResult struct {
-	Results struct {
-		Latitude  float64 `json:"latitude"`
-		Longitude float64 `json:"longitude"`
-	} `json:"results"`
+	Location struct {
+		Lat float64 `json:"lat"`
+		Lon float64 `json:"lon"`
+	}
 }
 
-// type GeocodeResponse struct {
-// 	Results []GeocodeResult `json:"results"`
-// } //`json:"data"`
-
 func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
-	url := fmt.Sprintf("http://api.positionstack.com/v1/forward?access_key=%s&query=%s",
-		PositionStackApiKey,
+	url := fmt.Sprintf("https://us1.locationiq.com/v1/search?key=%s&q=%s&format=json",
+		LocationiqApiKey,
 		place,
 	)
 
@@ -39,7 +35,7 @@ func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
 	res, err := Client.Get(url) //making GET request to API
 
 	//when you make a http request using http.Client as done above, it returns an http.Response object
-	//hence we can use the various fields and methods under the http.Response struct e.g resp.StatusCode -
+	//hence we can use the various fields and methods under the http.Response struct e.g res.StatusCode -
 	// .StatusCode is field under the http.Response struct
 	if err != nil {
 		return lat_lng, err
@@ -47,10 +43,7 @@ func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
 
 	defer res.Body.Close()
 
-	var geocode GeocodeResult
-	// RawJson := Json.RawMessage(DIRECT JSON FORMAT HERE)
-	// err := json.Unmarshal(RawJson, &geocode)
-
+	var geocode []GeocodeResult
 	err = json.NewDecoder(res.Body).Decode(&geocode)
 
 	//The json.NewDecoder function takes an input source,
@@ -61,15 +54,14 @@ func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
 		return lat_lng, err
 	}
 
-	if res.StatusCode != http.StatusOK {//|| len(geocode) < 1 {
-		return lat_lng,
-		fmt.Errorf("API request failed, error: %d", res.StatusCode)
-
+	if res.StatusCode != http.StatusOK || len(geocode) < 1 {
+		return lat_lng, fmt.Errorf("API request failed, error: %d", res.StatusCode)
 	}
+
 	latLng := LatLng{
-		Lat: geocode.Results.Latitude,
-		Lng: geocode.Results.Longitude,
+		Lat: geocode[0].Location.Lat,
+		Lng: geocode[0].Location.Lon,
 	}
 
-	return latLng, nil
+	return latLng, err
 }

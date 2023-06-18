@@ -1,3 +1,7 @@
+// RawJson := Json.RawMessage(DIRECT JSON FORMAT HERE)
+// err := json.Unmarshal(RawJson, &geocode)
+
+
 <!-- Dependencies are external software components or libraries that a project relies on to function correctly. 
 They are additional pieces of code or resources that are required for the project to work as intended.
  Dependencies can include libraries, frameworks, modules, packages, or other software components that provide 
