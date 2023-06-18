@@ -16,14 +16,15 @@ type LatLng struct {
 //	}
 
 type GeocodeResult struct {
-	Latitude float64 `json:"latitude"`
-	Longitude float64 `json:"longitude"`
-	
+	Results struct {
+		Latitude  float64 `json:"latitude"`
+		Longitude float64 `json:"longitude"`
+	} `json:"results"`
 }
 
-type GeocodeResponse struct {
-	Results []GeocodeResult `json:"results"`
- } //`json:"data"`
+// type GeocodeResponse struct {
+// 	Results []GeocodeResult `json:"results"`
+// } //`json:"data"`
 
 func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
 	url := fmt.Sprintf("http://api.positionstack.com/v1/forward?access_key=%s&query=%s",
@@ -35,7 +36,7 @@ func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
 	// we're going to define out own custom http client with a time-out
 	//this customized timer is done in main.go
 
-	res, err := Client.Get(url) //making request to API
+	res, err := Client.Get(url) //making GET request to API
 
 	//when you make a http request using http.Client as done above, it returns an http.Response object
 	//hence we can use the various fields and methods under the http.Response struct e.g resp.StatusCode -
@@ -46,7 +47,7 @@ func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
 
 	defer res.Body.Close()
 
-	var geocode GeocodeResponse
+	var geocode GeocodeResult
 	// RawJson := Json.RawMessage(DIRECT JSON FORMAT HERE)
 	// err := json.Unmarshal(RawJson, &geocode)
 
@@ -60,15 +61,15 @@ func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
 		return lat_lng, err
 	}
 
-	if res.StatusCode != http.StatusOK || len(geocode.Results) < 1 {
+	if res.StatusCode != http.StatusOK {//|| len(geocode) < 1 {
 		return lat_lng,
 		fmt.Errorf("API request failed, error: %d", res.StatusCode)
 
 	}
-	latLng := LatLng {
-		Lat: geocode.Results[0].Latitude,
-		Lng: geocode.Results[0].Longitude,
+	latLng := LatLng{
+		Lat: geocode.Results.Latitude,
+		Lng: geocode.Results.Longitude,
 	}
 
-	return latLng, nil		
+	return latLng, nil
 }
