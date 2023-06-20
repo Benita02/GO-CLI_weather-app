@@ -23,4 +23,5 @@ func main() {
 	fmt.Printf("Lat: %f", a)
 
 	//fmt.Printf("%+v\n", getLatLng) //%+v is special syntax to print struct to the console
+	//code still not working
 }
