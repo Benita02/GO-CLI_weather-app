@@ -22,7 +22,7 @@ type GeocodeResult struct {
 	}
 }
 
-func GetLatLngForPlace(place string) (lat_lng LatLng, err error) {
+func GetLatLngForPlace(place string) (lat_lng LatLng, err error) { //how will i know when to do error handling
 	url := fmt.Sprintf("https://us1.locationiq.com/v1/search?key=%s&q=%s&format=json",
 		LocationiqApiKey,
 		place,
