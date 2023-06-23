@@ -33,7 +33,7 @@ type OpenWeatherResponseCurrent struct{
 	}
 }
 
-	}
+	
 
 	
 }
