@@ -26,7 +26,7 @@ type OpenWeatherResponseCurrent struct{
 	Wind_deg int
 	Weather []OpenWeatherCondition //an array that'll be defined later
 	Rain struct {
-		_1hr float32 `json:"1h"`
+		_1hr float32 `json:"1h"`//fields can't start with numbers 
 	}
 	Snow struct {
 		_1hr float32 `json:"1h"`
