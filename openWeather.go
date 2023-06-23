@@ -33,7 +33,16 @@ type OpenWeatherResponseCurrent struct{
 	}
 }
 
-	
+func (w OpenWeatherResponseHourly) Output(units string) string {
+	var unitAbbr string
+
+	switch units {
+	case UnitsMetric:
+		unitAbbr = "C"
+	case UnitsImperial:
+		unitAbbr = "F"
+	}
+
 
 	
 }
