@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"net/url"
 )
 
 type LatLng struct {
@@ -23,9 +24,10 @@ type GeocodeResult struct {
 }
 
 func GetLatLngForPlace(place string) (lat_lng LatLng, err error) { //how will i know when to do error handling
+	escPlace := url.QueryEscape(place)
 	url := fmt.Sprintf("https://us1.locationiq.com/v1/search?key=%s&q=%s&format=json",
 		LocationiqApiKey,
-		place,
+		escPlace,
 	)
 
 	//since go does not have it's default http clients does not have a time-out for request,
