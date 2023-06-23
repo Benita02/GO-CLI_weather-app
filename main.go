@@ -21,5 +21,8 @@ func main() {
 	}
 
 	fmt.Printf("%+v\n", getLatLng) //%+v is special syntax to print struct to the console
+
+
+	//testing api on postman
 	
 }
