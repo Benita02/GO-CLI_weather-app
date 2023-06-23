@@ -2,6 +2,14 @@ package main
 
 import "fmt"
 
+type OpenWeatherCondition struct {
+	Id          int
+	Main        string
+	Description string
+	Icon        string
+}
+
+
 type OpenWeatherResponseCurrent struct{
 	Dt int64
 	Sunrise int64
@@ -18,7 +26,13 @@ type OpenWeatherResponseCurrent struct{
 	Wind_deg int
 	Weather []OpenWeatherCondition //an array that'll be defined later
 	Rain struct {
-		
+		_1hr float32 `json:"1h"`
+	}
+	Snow struct {
+		_1hr float32 `json:"1h"`
+	}
+}
+
 	}
 
 	
