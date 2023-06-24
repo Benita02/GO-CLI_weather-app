@@ -16,6 +16,7 @@ type LatLng struct {
 //		return l.LocationRes.Location
 //	}
 
+
 type GeocodeResult struct {
 	Location struct {
 		Lat float64 `json:"lat"`
