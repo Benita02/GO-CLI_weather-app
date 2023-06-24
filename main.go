@@ -15,14 +15,13 @@ func main() {
 		//handy shortcuts for calculating time in the time package
 		Timeout: time.Second * 10,
 	}
-	getLatLng, err := GetLatLngForPlace("80209") //input worked in api playground
+	getLatLng, err := GetLatLngForPlace("129.18.0.0") //input worked in api playground
 	if err != nil {
 		panic(err)
 	}
 
 	fmt.Printf("%+v\n", getLatLng) //%+v is special syntax to print struct to the console
 
-
 	//testing api on postman
-	
+
 }
