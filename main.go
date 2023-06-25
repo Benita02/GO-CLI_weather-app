@@ -23,5 +23,5 @@ func main() {
 	fmt.Printf("%+v\n", getLatLng) //%+v is special syntax to print struct to the console
 
 	//testing api on postman
-
+	//trying another api, currently looking for an api to take in a location string and change to an ip address
 }
