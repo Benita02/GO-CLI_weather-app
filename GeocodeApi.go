@@ -4,7 +4,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	
 )
 
 type LatLng struct {
@@ -16,16 +15,14 @@ type LatLng struct {
 //		return l.LocationRes.Location
 //	}
 
-
-
-type GeocodeResult struct{
+type GeocodeResult struct {
 	Lat float64 `json:"latitude"`
 	Lon float64 `json:"longitude"`
 }
 
-func GetLatLngForPlace(place string) (lat_lng LatLng, err error) { //how will i know when to do error handling
-	
-	url := fmt.Sprintf("https://ipapi.co/%s/json/", place)
+func GetLatLngForPlace(city, country string) (lat_lng LatLng, err error) { //how will i know when to do error handling
+
+	url := fmt.Sprintf("https://api.api-ninjas.com/v1/geocoding?city=%s&country=%s", city, country)
 
 	//since go does not have it's default http clients does not have a time-out for request,
 	// we're going to define out own custom http client with a time-out
@@ -39,8 +36,9 @@ func GetLatLngForPlace(place string) (lat_lng LatLng, err error) { //how will i 
 	if err != nil {
 		return lat_lng, err
 	}
-
+	//close folder(response)
 	defer res.Body.Close()
+	//read doc
 
 	var geocode GeocodeResult
 	err = json.NewDecoder(res.Body).Decode(&geocode)
@@ -53,7 +51,7 @@ func GetLatLngForPlace(place string) (lat_lng LatLng, err error) { //how will i 
 		return lat_lng, err
 	}
 
-	if res.StatusCode != http.StatusOK {//|| len(geocode) < 1 {
+	if res.StatusCode != http.StatusOK { //|| len(geocode) < 1 {
 		return lat_lng, fmt.Errorf("API request failed, error: %d", res.StatusCode)
 	}
 
