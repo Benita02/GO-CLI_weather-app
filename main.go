@@ -15,12 +15,12 @@ func main() {
 		//handy shortcuts for calculating time in the time package
 		Timeout: time.Second * 10,
 	}
-	getLatLng, err := GetLatLngForPlace("38 Upper Montagu Street, London W1H 1LJ, United Kingdom") //input worked in api playground
+	GetIp, err := GetIpForPlace() //input worked in api playground
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("%+v\n", getLatLng) //%+v is special syntax to print struct to the console
+	fmt.Printf("%+v\n", GetIp) //%+v is special syntax to print struct to the console
 
 	//testing api on postman
 	//trying another api, currently looking for an api to take in a location string and change to an ip address

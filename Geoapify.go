@@ -14,7 +14,7 @@ type IpResult struct {
 	Ip string
 }
 
-func GetLatLngForPlace() (IpAddress Ip, err error) { //how will i know when to do error handling
+func GetIpForPlace() (IpAddress Ip, err error) { //how will i know when to do error handling
 	//escPlace := url.QueryEscape(place)
 	url := fmt.Sprintf("https://api.geoapify.com/v1/ipinfo?&apiKey=%s", Geoapify)
 	//since go does not have it's default http clients does not have a time-out for request,
