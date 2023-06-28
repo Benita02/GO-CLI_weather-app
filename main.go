@@ -15,7 +15,7 @@ func main() {
 		//handy shortcuts for calculating time in the time package
 		Timeout: time.Second * 10,
 	}
-	getLatLng, err := GetLatLngForPlace("Warri", "Nigeria") //input worked in api playground
+	getLatLng, err := GetLatLngForPlace("38 Upper Montagu Street, London W1H 1LJ, United Kingdom") //input worked in api playground
 	if err != nil {
 		panic(err)
 	}
