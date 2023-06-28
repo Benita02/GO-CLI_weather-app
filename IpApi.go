@@ -15,7 +15,7 @@ type LatLngResult struct {
 }
 
 func GetLatLonFromIp(Ip Ip) (latLng LatLng, err error) {
-	url := fmt.Sprintf("https://ipapi.co/%s/json/", IP)
+	url := fmt.Sprintf("https://ipapi.co/%s/json/", Ip)
 
 	res, err := Client.Get(url)
 
