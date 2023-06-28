@@ -15,13 +15,20 @@ func main() {
 		//handy shortcuts for calculating time in the time package
 		Timeout: time.Second * 10,
 	}
-	GetIp, err := GetIpForPlace() //input worked in api playground
+	getIp, err := GetIpForPlace() //input worked in api playground
 	if err != nil {
 		panic(err)
 	}
 
-	fmt.Printf("%+v\n", GetIp) //%+v is special syntax to print struct to the console
+	fmt.Printf("%s", getIp)
+	//%+v is special syntax to print struct to the console
 
-	//testing api on postman
-	//trying another api, currently looking for an api to take in a location string and change to an ip address
+	getLatLon, err := GetLatLonFromIp("8.8.8.8")
+
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Printf("%+v", getLatLon)
+
 }
