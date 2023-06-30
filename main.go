@@ -23,7 +23,7 @@ func main() {
 	fmt.Printf("%s", getIp)
 	//%+v is special syntax to print struct to the console
 
-	getLatLon, err := GetLatLonFromIp("8.8.8.8")
+	getLatLon, err := GetLatLonFromIp(IP)
 
 	if err != nil {
 		panic(err)
