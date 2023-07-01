@@ -3,53 +3,65 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 )
 
 type Ip struct {
-	Ip string
+	Ip string `json:"ip"`
+	Lat float64 `json:"latitude"`
+	Lon float64 `json:"longitude"`
+}
+
+type Location struct {
+	Lat float64 `json:"latitude"`
+	Lon float64 `json:"longitude"`
 }
 
 type IpResult struct {
-	Ip string
+	Location Location `json:"location"`
+	Ip string `json:"ip"`
 }
 
-func GetIpForPlace() (IpAddress Ip, err error) { //how will i know when to do error handling
-	//escPlace := url.QueryEscape(place)
+func GetIpForPlace() (IpAddress Ip, err error) {
 	url := fmt.Sprintf("https://api.geoapify.com/v1/ipinfo?&apiKey=%s", Geoapify)
-	//since go does not have it's default http clients does not have a time-out for request,
-	// we're going to define out own custom http client with a time-out
-	//this customized timer is done in main.go
 
-	res, err := Client.Get(url) //making GET request to API
-
-	//when you make a http request using http.Client as done above, it returns an http.Response object
-	//hence we can use the various fields and methods under the http.Response struct e.g res.StatusCode -
-	// .StatusCode is field under the http.Response struct
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return IpAddress, err
-	}
-	//close folder(response)
-	defer res.Body.Close()
-	//read doc
-
-	var result IpResult
-	err = json.NewDecoder(res.Body).Decode(&result)
-
-	//The json.NewDecoder function takes an input source,
-	//which implements the io.Reader interface, as its parameter.
-	//check the documentation for all these functions
-
-	if err != nil {
+		fmt.Println("Error creating request:", err)
 		return IpAddress, err
 	}
 
-	if res.StatusCode != http.StatusOK { //|| len(geocode) < 1 {
-		return IpAddress, fmt.Errorf("API request failed, error: %d", res.StatusCode)
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Error making request:", err)
+		return IpAddress, err
 	}
+	defer resp.Body.Close()
 
-	IP := Ip{
-		Ip: result.Ip,
+	if resp.StatusCode == http.StatusOK {
+		body, err := ioutil.ReadAll(resp.Body)
+		if err != nil {
+			fmt.Println("Error reading response body:", err)
+			return IpAddress, err
+		}
+
+		var result IpResult
+		err = json.Unmarshal(body, &result)
+		if err != nil {
+			fmt.Println("Error decoding response body:", err)
+			return IpAddress, err
+		}
+
+		IP := Ip{
+			Ip: result.Ip,
+			Lat: result.Location.Lat,
+			Lon: result.Location.Lon,
+		}
+		return IP, nil
+	} else {
+		fmt.Println("Error:", resp.StatusCode, resp.Status)
+		return IpAddress, fmt.Errorf("API request failed, error: %d", resp.StatusCode)
 	}
-	return IP, err
 }

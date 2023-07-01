@@ -20,15 +20,15 @@ func main() {
 		panic(err)
 	}
 
-	fmt.Printf("%s", getIp)
+	fmt.Printf("%+v", getIp)
 	//%+v is special syntax to print struct to the console
 
-	getLatLon, err := GetLatLonFromIp(IP)
+	// getLatLon, err := GetLatLonFromIp(getIp)
 
-	if err != nil {
-		panic(err)
-	}
+	// if err != nil {
+	// 	panic(err)
+	// }
 
-	fmt.Printf("%+v", getLatLon)
+	// fmt.Printf("%+v", getLatLon)
 
 }
