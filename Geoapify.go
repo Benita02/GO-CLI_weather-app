@@ -7,8 +7,8 @@ import (
 	"net/http"
 )
 
-type Ip struct {
-	Ip string `json:"ip"`
+type IpLatLon struct {
+	Ip  string  `json:"ip"`
 	Lat float64 `json:"latitude"`
 	Lon float64 `json:"longitude"`
 }
@@ -20,10 +20,10 @@ type Location struct {
 
 type IpResult struct {
 	Location Location `json:"location"`
-	Ip string `json:"ip"`
+	Ip       string   `json:"ip"`
 }
 
-func GetIpForPlace() (IpAddress Ip, err error) {
+func GetIpForPlace() (IpAddress IpLatLon, err error) {
 	url := fmt.Sprintf("https://api.geoapify.com/v1/ipinfo?&apiKey=%s", Geoapify)
 
 	req, err := http.NewRequest("GET", url, nil)
@@ -34,6 +34,8 @@ func GetIpForPlace() (IpAddress Ip, err error) {
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
+	//client.Do - It handles the entire lifecycle of the request,
+	//including establishing a connection, sending the request, and receiving the response.
 	if err != nil {
 		fmt.Println("Error making request:", err)
 		return IpAddress, err
@@ -54,8 +56,8 @@ func GetIpForPlace() (IpAddress Ip, err error) {
 			return IpAddress, err
 		}
 
-		IP := Ip{
-			Ip: result.Ip,
+		IP := IpLatLon{
+			Ip:  result.Ip,
 			Lat: result.Location.Lat,
 			Lon: result.Location.Lon,
 		}
