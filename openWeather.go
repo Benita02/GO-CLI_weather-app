@@ -25,12 +25,23 @@ type OpenWeatherResponseCurrent struct{
 	Wind_speed float32
 	Wind_deg int
 	Weather []OpenWeatherCondition //an array that'll be defined later
-	Rain struct {
-		_1hr float32 `json:"1h"`//fields can't start with numbers 
-	}
-	Snow struct {
-		_1hr float32 `json:"1h"`
-	}
+}
+
+
+type OpenWeatherResponseHourly struct{
+	Dt int64
+	Temp float32
+	Feels_like float32
+	Pressure int
+	Humidity int
+	Dew_point float32
+	Clouds int
+	Visibility int
+	Wind_speed float32
+	Wind_deg int
+	Weather []OpenWeatherCondition
+	
+
 }
 
 func (w OpenWeatherResponseHourly) Output(units string) string {
