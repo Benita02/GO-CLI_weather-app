@@ -27,6 +27,24 @@ type OpenWeatherResponseCurrent struct{
 	Weather []OpenWeatherCondition //an array that'll be defined later
 }
 
+func (w OpenWeatherResponseCurrent) Output(units string) string {
+	var unitAbbr string
+
+	switch units {
+	case UnitsMetric:
+		unitAbbr = "C"
+	case UnitsImperial:
+		unitAbbr = "F"
+	}
+
+	return fmt.Sprintf("Current: %g%s | Humidity: %d%% | %s\n",
+		w.Temp,
+		unitAbbr,
+		w.Humidity,
+		w.Weather[0].Description,
+	)
+}
+
 
 type OpenWeatherResponseHourly struct{
 	Dt int64
@@ -44,15 +62,15 @@ type OpenWeatherResponseHourly struct{
 
 }
 
-// func (w OpenWeatherResponseHourly) Output(units string) string {
-// 	var unitAbbr string
+func (w OpenWeatherResponseHourly) Output(units string) string {
+	var unitAbbr string
 
-// 	switch units {
-// 	case UnitsMetric:
-// 		unitAbbr = "C"
-// 	case UnitsImperial:
-// 		unitAbbr = "F"
-// 	}
+	switch units {
+	case UnitsMetric:
+		unitAbbr = "C"
+	case UnitsImperial:
+		unitAbbr = "F"
+	}
 
 
 	
