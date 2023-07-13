@@ -72,7 +72,7 @@ func (w OpenWeatherResponseHourly) Output(units string) string {
 		unitAbbr = "F"
 	}
 
-
+	return fmt.Sprintf("Curr
 	
 }
 type OpenWeatherResponseOneCall struct{
