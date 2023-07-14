@@ -41,7 +41,7 @@ func (w OpenWeatherResponseCurrent) Output(units string) string {
 		w.Temp,
 		unitAbbr,
 		w.Humidity,
-		w.Weather[0].Description,
+		w.Weather[0].Description,sssssssssssssssssssssssssssss
 	)
 }
 
@@ -72,8 +72,17 @@ func (w OpenWeatherResponseHourly) Output(units string) string {
 		unitAbbr = "F"
 	}
 
-	return fmt.Sprintf("Curr
-	
+	t := time.Unix(w.Dt, 0)
+	return fmt.Sprintf("%-9s %2d/%2d %02d:00   %5.2f%s | Humidity: %d%% | %s\n",
+		t.Weekday().String(),
+		t.Month(),
+		t.Day(),
+		t.Hour(),
+		w.Temp,
+		unitAbbr,
+		w.Humidity,
+		w.Weather[0].Description,
+	)
 }
 type OpenWeatherResponseOneCall struct{
 	Current *OpenWeatherResponseCurrent 
