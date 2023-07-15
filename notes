@@ -24,3 +24,5 @@ Build Reproducibility: It allows for consistent and repeatable builds by locking
 Go Module Compatibility: It enables easy integration with other Go modules and projects.
 
 In summary, a go.mod file acts as a central configuration for managing dependencies and ensuring a reliable development environment for Go projects. -->
+
+Using the Unix timestamp allows systems to have a consistent and standardized way of representing time, regardless of different time zones or local conventions. It simplifies time calculations and enables easy conversion between different time formats and representations.

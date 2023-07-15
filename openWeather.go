@@ -62,6 +62,38 @@ type OpenWeatherResponseHourly struct{
 
 }
 
+type OpenWeatherResponseDaily struct{
+	Dt int64
+	Sunrise int64
+	Sunset int64
+	Summary string
+	temp struct{
+		Day float32
+		Min float32
+		Max float32
+		Night float32
+		Eve float32
+		Morn float32
+	}
+	Feels_like struct{
+		Day float32
+		Night float32
+		Eve float32
+		Morn float32
+	}
+	Pressure   int
+	Humidity   int
+	Dew_point  float32
+	Uvi        float32
+	Clouds     int
+	Visibility int
+	Wind_speed float32
+	Wind_gust  float32
+	Wind_deg   int
+	Weather    []OpenWeatherCondition
+	Rain       float32
+}
+
 func (w OpenWeatherResponseHourly) Output(units string) string {
 	var unitAbbr string
 
@@ -91,3 +123,4 @@ type OpenWeatherResponseOneCall struct{
 }
 
 func getWeatherInfo(lat_lng LatLng, units string, period string) {weather OpenweatherResponseOneCall, err error}
+  
