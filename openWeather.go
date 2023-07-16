@@ -122,5 +122,27 @@ type OpenWeatherResponseOneCall struct{
 	Daily *[]OpenWeatherResponseDaily
 }
 
-func getWeatherInfo(lat_lng LatLng, units string, period string) {weather OpenweatherResponseOneCall, err error}
+func getWeatherInfo(lat_lng LatLng, units string, period string) {weather OpenweatherResponseOneCall, err error} {
+	exclude := []string(WeatherPeriodMinutely)
+	if period != WeatherPeriodCurrent {
+		exclude = append(exclude, WeatherPeriodCurrent)
+	}
+	if period != WeatherPeriodHourly {
+		exclude = append(exclude, WeatherPeriodHourly)
+	}
+	if period != WeatherPeriodDaily {
+		exclude = append(exclude, WeatherPeriodDaily)
+	}
+
+	excString := strings.Join(exclude, ",")
+
+	url := fmt.Sprintf("https://api.openweathermap.org/data/3.0/onecall?lat=%g&lon=%g&exclude=%s&appid=%s&units=%s")
+	Ip_latlon.Lat,
+	Ip_latlon.Lon,
+	excString,
+	OpenWeatherApiKey,
+	units,
+
+
+}
   

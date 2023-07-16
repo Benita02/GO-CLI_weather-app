@@ -9,9 +9,10 @@ import (
 const {
 	WeatherPeriodCurrent = "current"
 	WeatherPeriodMinutely = "minutely"
-	WeatherPeriodHourly = "hourly "
+	WeatherPeriodHourly = "hourly"
 	WeatherPeriodDaily = "daily"
 	UnitsImperial = "imperial"
+	UnitsMetric = "metric"
 }
 
 // defining a global variable of type http.Client from the http package

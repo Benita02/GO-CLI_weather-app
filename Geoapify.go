@@ -54,14 +54,14 @@ func GetIpForPlace() (IpAddress IpLatLon, err error) {
 		if err != nil {
 			fmt.Println("Error decoding response body:", err)
 			return IpAddress, err
-		}
+		} 
 
-		IP := IpLatLon{
+		Ip_latlon := IpLatLon{
 			Ip:  result.Ip,
 			Lat: result.Location.Lat,
 			Lon: result.Location.Lon,
 		}
-		return IP, nil
+		return Ip_latlon, nil
 	} else {
 		fmt.Println("Error:", resp.StatusCode, resp.Status)
 		return IpAddress, fmt.Errorf("API request failed, error: %d", resp.StatusCode)
