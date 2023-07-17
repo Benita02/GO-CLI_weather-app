@@ -1,6 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"encoding/json"
+	"errors"
+	"fmt"
+	"strings"
+	"time"
+)
 
 type OpenWeatherCondition struct {
 	Id          int
@@ -9,22 +15,21 @@ type OpenWeatherCondition struct {
 	Icon        string
 }
 
-
-type OpenWeatherResponseCurrent struct{
-	Dt int64
-	Sunrise int64
-	Sunset int64
-	Temp float32
+type OpenWeatherResponseCurrent struct {
+	Dt         int64
+	Sunrise    int64
+	Sunset     int64
+	Temp       float32
 	Feels_like float32
-	Pressure int
-	Humidity int
-	Dew_point float32
-	Uvi float32
-	Clouds int
+	Pressure   int
+	Humidity   int
+	Dew_point  float32
+	Uvi        float32
+	Clouds     int
 	Visibility int
 	Wind_speed float32
-	Wind_deg int
-	Weather []OpenWeatherCondition //an array that'll be defined later
+	Wind_deg   int
+	Weather    []OpenWeatherCondition //an array that'll be defined later
 }
 
 func (w OpenWeatherResponseCurrent) Output(units string) string {
@@ -41,45 +46,42 @@ func (w OpenWeatherResponseCurrent) Output(units string) string {
 		w.Temp,
 		unitAbbr,
 		w.Humidity,
-		w.Weather[0].Description,sssssssssssssssssssssssssssss
+		w.Weather[0].Description,
 	)
 }
 
-
-type OpenWeatherResponseHourly struct{
-	Dt int64
-	Temp float32
+type OpenWeatherResponseHourly struct {
+	Dt         int64
+	Temp       float32
 	Feels_like float32
-	Pressure int
-	Humidity int
-	Dew_point float32
-	Clouds int
+	Pressure   int
+	Humidity   int
+	Dew_point  float32
+	Clouds     int
 	Visibility int
 	Wind_speed float32
-	Wind_deg int
-	Weather []OpenWeatherCondition
-	
-
+	Wind_deg   int
+	Weather    []OpenWeatherCondition
 }
 
-type OpenWeatherResponseDaily struct{
-	Dt int64
+type OpenWeatherResponseDaily struct {
+	Dt      int64
 	Sunrise int64
-	Sunset int64
+	Sunset  int64
 	Summary string
-	temp struct{
-		Day float32
-		Min float32
-		Max float32
+	temp    struct {
+		Day   float32
+		Min   float32
+		Max   float32
 		Night float32
-		Eve float32
-		Morn float32
+		Eve   float32
+		Morn  float32
 	}
-	Feels_like struct{
-		Day float32
+	Feels_like struct {
+		Day   float32
 		Night float32
-		Eve float32
-		Morn float32
+		Eve   float32
+		Morn  float32
 	}
 	Pressure   int
 	Humidity   int
@@ -116,14 +118,15 @@ func (w OpenWeatherResponseHourly) Output(units string) string {
 		w.Weather[0].Description,
 	)
 }
-type OpenWeatherResponseOneCall struct{
-	Current *OpenWeatherResponseCurrent 
-	Hourly *[]OpenWeatherResponseHourly
-	Daily *[]OpenWeatherResponseDaily
+
+type OpenWeatherResponseOneCall struct {
+	Current *OpenWeatherResponseCurrent
+	Hourly  *[]OpenWeatherResponseHourly
+	Daily   *[]OpenWeatherResponseDaily
 }
 
-func getWeatherInfo(lat_lng LatLng, units string, period string) {weather OpenweatherResponseOneCall, err error} {
-	exclude := []string(WeatherPeriodMinutely)
+func getWeatherInfo(lat_lng LatLng, units string, period string) (weather OpenWeatherResponseOneCall, err error) {
+	exclude := []string{WeatherPeriodMinutely}
 	if period != WeatherPeriodCurrent {
 		exclude = append(exclude, WeatherPeriodCurrent)
 	}
@@ -136,13 +139,28 @@ func getWeatherInfo(lat_lng LatLng, units string, period string) {weather Openwe
 
 	excString := strings.Join(exclude, ",")
 
-	url := fmt.Sprintf("https://api.openweathermap.org/data/3.0/onecall?lat=%g&lon=%g&exclude=%s&appid=%s&units=%s")
-	Ip_latlon.Lat,
-	Ip_latlon.Lon,
-	excString,
-	OpenWeatherApiKey,
-	units,
+	url := fmt.Sprintf("https://api.openweathermap.org/data/3.0/onecall?lat=%g&lon=%g&exclude=%s&appid=%s&units=%s",
+		Ip_latlon.Lat,
+		Ip_latlon.Lon,
+		excString,
+		OpenWeatherApiKey,
+		units,
+	)
 
+	req, err := httpClient.Get(url)
+	if err != nil {
+		return weather, err
+	}
 
+	defer req.Body.Close()
+
+	//despite an error not being flagged after check above, there is still need to check if the status code is 200
+	//it is considered good practice to perform additional checks on critical factors, such as the status code
+	if req.statusCode != 200 {
+		return weather, errors.New(fmt.Sprintf("OpenWeatherRequest Failed: %s", req.Status))
+	}
+
+	err = json.NewDecoder(req.Body).Decode(&weather)
+
+	return weather, err
 }
-  
