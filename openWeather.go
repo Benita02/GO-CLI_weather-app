@@ -165,5 +165,4 @@ func getWeatherInfo(lat_lng LatLng, units string, period string) (weather OpenWe
 	return weather, err
 }
 
-//Why aren't global variables not acting as global variables????
-//suspecting it has to do with installation of GO
+//fixing business logic of code, still can't fix global variable problem
