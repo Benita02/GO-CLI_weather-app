@@ -24,14 +24,14 @@ func main() {
 		//handy shortcuts for calculating time in the time package
 		Timeout: time.Second * 10,
 	}
-	getIp, err := GetIpForPlace() //input worked in api playground
+	l, err := GetLatLonForPlace() //input worked in api playground
 	if err != nil {
 		panic(err)
 	}
 
-	getWeather, err := getWeatherInfo(getIp, UnitsImperial, WeatherPeriodHourly)
+	getWeather, err := getWeatherInfo(l, UnitsImperial, WeatherPeriodHourly)
 
-	fmt.Printf("%+v", getWeather)
+	fmt.Printf("%+v\n", *getWeather.Hourly)
 	//%+v is special syntax to print struct to the console
 
 }

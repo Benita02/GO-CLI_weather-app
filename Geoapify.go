@@ -18,18 +18,18 @@ type Location struct {
 	Lon float64 `json:"longitude"`
 }
 
-type IpResult struct {
+type Result struct {
 	Location Location `json:"location"`
 	Ip       string   `json:"ip"`
 }
 
-func GetIpForPlace() (IpAddress IpLatLon, err error) {
+func GetLatLonForPlace() (LatLon IpLatLon, err error) {
 	url := fmt.Sprintf("https://api.geoapify.com/v1/ipinfo?&apiKey=%s", Geoapify)
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		fmt.Println("Error creating request:", err)
-		return IpAddress, err
+		return LatLon, err
 	}
 
 	client := &http.Client{}
@@ -38,7 +38,7 @@ func GetIpForPlace() (IpAddress IpLatLon, err error) {
 	//including establishing a connection, sending the request, and receiving the response.
 	if err != nil {
 		fmt.Println("Error making request:", err)
-		return IpAddress, err
+		return LatLon, err
 	}
 	defer resp.Body.Close()
 
@@ -46,24 +46,23 @@ func GetIpForPlace() (IpAddress IpLatLon, err error) {
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			fmt.Println("Error reading response body:", err)
-			return IpAddress, err
+			return LatLon, err
 		}
 
-		var result IpResult
+		var result Result
 		err = json.Unmarshal(body, &result)
 		if err != nil {
 			fmt.Println("Error decoding response body:", err)
-			return IpAddress, err
-		} 
+			return LatLon, err
+		}
 
-		Ip_latlon := IpLatLon{
-			Ip:  result.Ip,
+		Latlon := IpLatLon{
 			Lat: result.Location.Lat,
 			Lon: result.Location.Lon,
 		}
-		return Ip_latlon, nil
+		return Latlon, nil
 	} else {
 		fmt.Println("Error:", resp.StatusCode, resp.Status)
-		return IpAddress, fmt.Errorf("API request failed, error: %d", resp.StatusCode)
+		return LatLon, fmt.Errorf("API request failed, error: %d", resp.StatusCode)
 	}
 }

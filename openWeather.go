@@ -125,7 +125,7 @@ type OpenWeatherResponseOneCall struct {
 	Daily   *[]OpenWeatherResponseDaily
 }
 
-func getWeatherInfo(lat_lng LatLng, units string, period string) (weather OpenWeatherResponseOneCall, err error) {
+func getWeatherInfo(lat_lng IpLatLon, units string, period string) (weather OpenWeatherResponseOneCall, err error) {
 	exclude := []string{WeatherPeriodMinutely}
 	if period != WeatherPeriodCurrent {
 		exclude = append(exclude, WeatherPeriodCurrent)
