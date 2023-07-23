@@ -31,7 +31,7 @@ func main() {
 
 	getWeather, err := getWeatherInfo(l, UnitsImperial, WeatherPeriodHourly)
 
-	fmt.Printf("%+v\n", *getWeather.Hourly)
+	fmt.Printf("%+v\n", getWeather.Hourly)
 	//%+v is special syntax to print struct to the console
 
 }

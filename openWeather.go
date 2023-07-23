@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"net/http"
 	"strings"
 	"time"
 )
@@ -139,28 +140,33 @@ func getWeatherInfo(lat_lng IpLatLon, units string, period string) (weather Open
 
 	excString := strings.Join(exclude, ",")
 
+	latitude := lat_lng.Lat
+	longitude := lat_lng.Lon
+
 	url := fmt.Sprintf("https://api.openweathermap.org/data/3.0/onecall?lat=%g&lon=%g&exclude=%s&appid=%s&units=%s",
-		Ip_latlon.Lat,
-		Ip_latlon.Lon,
+		latitude ,
+		longitude,
 		excString,
 		OpenWeatherApiKey,
 		units,
 	)
 
-	req, err := httpClient.Get(url)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		return weather, err
 	}
 
-	defer req.Body.Close()
-
+	client := &http.Client{}
+	res, err := client.Do(req)
 	//despite an error not being flagged after check above, there is still need to check if the status code is 200
 	//it is considered good practice to perform additional checks on critical factors, such as the status code
-	if req.statusCode != 200 {
-		return weather, errors.New(fmt.Sprintf("OpenWeatherRequest Failed: %s", req.Status))
+	if res.StatusCode != 200 {
+		return weather, errors.New(fmt.Sprintf("OpenWeatherRequest Failed: %s", res.Status))
 	}
 
-	err = json.NewDecoder(req.Body).Decode(&weather)
+	defer res.Body.Close()
+
+	err = json.NewDecoder(res.Body).Decode(&weather)
 
 	return weather, err
 }
