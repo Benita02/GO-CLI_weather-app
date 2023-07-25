@@ -144,7 +144,7 @@ func getWeatherInfo(lat_lng IpLatLon, units string, period string) (weather Open
 	longitude := lat_lng.Lon
 
 	url := fmt.Sprintf("https://api.openweathermap.org/data/3.0/onecall?lat=%g&lon=%g&exclude=%s&appid=%s&units=%s",
-		latitude ,
+		latitude,
 		longitude,
 		excString,
 		OpenWeatherApiKey,

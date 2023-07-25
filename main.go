@@ -33,5 +33,8 @@ func main() {
 
 	fmt.Printf("%+v\n", getWeather.Hourly)
 	//%+v is special syntax to print struct to the console
+	if err != nil {
+		panic(err)
+	}
 
 }
